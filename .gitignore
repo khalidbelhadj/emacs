@@ -1,0 +1,17 @@
+.DS_Store
+.cache/
+.dap-breakpoints
+.local/
+.lsp-session-v1
+
+auto-save-list/
+company-statistics-cache.el
+elpa/
+games/
+history
+places
+projects
+recentf
+transient/
+tree-sitter-langs/
+tree-sitter/
