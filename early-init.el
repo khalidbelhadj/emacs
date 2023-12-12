@@ -5,9 +5,8 @@
 
 ;; Setting font
 (set-face-attribute 'default nil
-                    ;; :family "Iosevka Nerd Font Mono"
                     :family "JetBrainsMono Nerd Font"
-                    :height 120)
+                    :height 130)
 
 
 (add-hook 'focus-out-hook 'garbage-collect)
@@ -74,7 +73,7 @@
   (save-place-mode 1)
   (savehist-mode 1)
   (recentf-mode 1)
-  
+
   ;; Transparent titlebar
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark)))

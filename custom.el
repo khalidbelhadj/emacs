@@ -6,8 +6,6 @@
  '(custom-safe-themes
    '("7447f4f58bf7719c58a2b945493f2308e15079950fa251cc4dbb48adf70d8198" default))
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
- '(package-selected-packages
-   '(lsp-treemacs auctex git-gutter magit haskell-mode company embark consult hl-todo cmake-mode astro-ts-mode lsp-tailwindcss itail org-fragtog multiple-cursors lsp-java lsp-pyright lsp-haskell lsp-ui ta exec-path-from-shell flycheck-posframe tide json-mode yaml-mode which-key web-mode vterm vertico use-package typescript-mode try tree-sitter-langs swiper rustic rainbow-delimiters python-mode popper pdf-tools orderless neotree minions marginalia magit-todos highlight-indent-guides helpful git-gutter-fringe flycheck expand-region embark-consult drag-stuff doom-themes diredfl company-statistics company-box chatgpt-shell auto-rename-tag))
  '(tree-sitter-major-mode-language-alist
    '((agda2-mode . agda)
      (sh-mode . bash)

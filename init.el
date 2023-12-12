@@ -29,8 +29,8 @@
 ;; Path
 (use-package exec-path-from-shell)
 
-;; (when (memq window-system '(mac ns x))
-;;   (exec-path-from-shell-initialize))
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 ;; Custom file
 (load (expand-file-name "custom.el" user-emacs-directory) nil t)
@@ -212,7 +212,7 @@
 
 ;; Highlight indent guides
 (use-package highlight-indent-guides
-  ;;  :hook (prog-mode . highlight-indent-guides-mode)
+  :hook (prog-mode . highlight-indent-guides-mode)
   :config (setq highlight-indent-guides-method 'character))
 
 ;; Whitespace
@@ -323,18 +323,15 @@
 
 ;; Company
 (use-package company
-  :after lsp-mode
   :hook (prog-mode . company-mode)
   :init (setq
-         company-minimum-prefix-length 1
+;;          company-minimum-prefix-length 1
          company-idle-delay 0
          company-tooltip-idle-delay 0
          company-tooltip-align-annotations t
          company-tooltip-offset-display 'lines
          company-tooltip-maximum-width 50)
-  :config
-  (setq company-files-path-caches '("~/Desktop" "~/Documents" "~/Khalid's Vault"))
-  (add-to-list 'company-backends 'company-files))
+  :config (add-to-list 'company-backends 'company-files))
 
 (use-package company-box
   :hook (company-mode . company-box-mode)
@@ -356,7 +353,6 @@
 
 (use-package tree-sitter
   :after tree-sitter-langs
-  :hook (lsp-mode . global-tree-sitter-mode)
   :init (setq tree-sitter-debug-jump-buttons t)
   :config (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
@@ -372,47 +368,9 @@
 ;; (setq tree-sitter-major-mode-language-alist (assq-delete-all 'typescript-mode tree-sitter-major-mode-language-alist))
 ;; (setq tree-sitter-major-mode-language-alist (cons '(typescript-mode . tsx) tree-sitter-major-mode-language-alist))
 
-;; (setq treesit-language-source-alist
-;;       '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src" nil nil)
-;;         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src" nil nil)))
-
-;; LSP
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :init (setq lsp--prefix "C-M-l")
-  :config
-  (if (package-installed-p 'which-key)
-      (lsp-enable-which-key-integration 1))
-   (setq
-   lsp-prefer-flymake nil
-   lsp-headerline-breadcrumb-enable nil
-   lsp-signature-render-documentation nil
-   lsp-pylsp-plugins-flake8-enabled t
-   lsp-pylsp-plugins-pylint-enabled t
-   lsp-pylsp-plugins-autopep8-enabled t
-   lsp-pylsp-plugins-pydocstyle-enabled nil)
-   )
-
-(use-package lsp-ui
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-sideline-enable nil
-        lsp-ui-doc-position 'at-point)
-  (lsp-ui-sideline-mode -1)
-  (lsp-signature-mode -1)
-  (bind-key* (concat lsp-keymap-prefix " u i") 'lsp-ui-imenu))
-
-;; (dolist (mode '(python-mode-hook
-;;                 c-mode-hook
-;;                 c++-mode-hook
-;;                 typescript-mode-hook
-;;                 web-mode-hook
-;;                 haskell-mode-hook
-;;                 java-mode-hook
-;;                 rustic-mode-hook))
-;;   (add-hook mode 'lsp-deferred))
-
+(setq treesit-language-source-alist
+      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src" nil nil)
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src" nil nil)))
 
 ;; Flycheck
 (use-package flycheck
@@ -434,7 +392,9 @@
 ;; Rust
 (use-package rustic
   :commands rustic-mode
-  :init (setq rust-match-angle-brackets nil))
+  :init (setq rust-match-angle-brackets nil)
+        (when (not (require 'lsp-mode nil 'noerror))
+          (setq rustic-lsp-setup-p nil)))
 
 ;; Haskell
 (use-package haskell-mode
@@ -442,9 +402,6 @@
   :config
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
   (setq haskell-interactive-popup-errors nil))
-
-(use-package lsp-haskell
-  :commands lsp-mode)
 
 ;; Python
 (use-package python-mode
@@ -454,10 +411,6 @@
    python-shell-interpreter "python3"
    dap-python-executable "python3"
    dap-python-debugger 'debugpy))
-
-(use-package lsp-pyright
-  ;;  :after lsp-mode
-  :custom (lsp-pyright-typechecking-mode "basic"))
 
 ;; Web
 (use-package json-mode
@@ -471,13 +424,9 @@
                                              ("jsx" . "\\.ts[x]?\\'"))))
 
 ;; Typescript
-;; (use-package typescript-mode
-;;   :commands typescript-mode
-;;   :init (setq typescript-indent-level 2))
-
-;; Tailwind
-(use-package lsp-tailwindcss
-  :config (setq lsp-tailwindcss-add-on-mode t))
+(use-package typescript-mode
+  :commands typescript-mode
+  :init (setq typescript-indent-level 2))
 
 ;; Auto rename tag
 (use-package auto-rename-tag
@@ -488,18 +437,14 @@
   (mhtml-mode  . auto-rename-tag-mode)
   (css-mode    . auto-rename-tag-mode))
 
-;; Java
-(use-package lsp-java
-  :commands java-mode)
-
 ;; Yaml
 (use-package yaml-mode)
 
 ;; LaTex
 (use-package latex-mode
   :ensure nil
-  :hook (latex-mode . toggle-word-wrap))
-;; :init (setq font-latex-fontify-sectioning 'color)))
+  :hook (latex-mode . toggle-word-wrap)
+  :init (setq font-latex-fontify-sectioning 'color))
 
 ;; Git
 (use-package magit
@@ -579,8 +524,6 @@
         pdf-view-display-size 'fit-height))
 
 (add-hook 'doc-view-mode-hook 'pdf-tools-install)
-
-;; (add-hook 'after-init-hook 'pdf-tools-install)
 
 ;; AI
 (use-package chatgpt-shell
