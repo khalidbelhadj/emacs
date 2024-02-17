@@ -351,10 +351,10 @@
   :init (setq tree-sitter-langs-git-dir (concat user-emacs-directory "tree-sitter-langs/"))
   :commands tree-sitter-mode)
 
-(use-package tree-sitter
-  :after tree-sitter-langs
-  :init (setq tree-sitter-debug-jump-buttons t)
-  :config (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+;; (use-package tree-sitter
+  ;; :after tree-sitter-langs
+;;   :init (setq tree-sitter-debug-jump-buttons t)
+;;   :config (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (dolist (mode '(python-mode-hook
                 c-mode-hook
@@ -557,3 +557,5 @@
       ;;   font-lock-keywords. See emacs-tree-sitter/tree-sitter-langs#23
       (setq-hook! 'typescript-tsx-mode-hook
                   tree-sitter-hl-use-font-lock-keywords nil))))
+
+;; (load "lsp.el")
